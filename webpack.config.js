@@ -13,17 +13,14 @@ const rules = [
         loader: 'babel-loader'
     },
     {
-        test: /\.css$/,
+        test: /\.less$/,
         use: ExtractTextWebpackPlugin.extract({
             fallback: 'style-loader',
-            use : [
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: isDevelopment,
-                        minimize: isDevelopment
-                    }
-                }
+            use: [
+                //minimize css in build to avoid bundling newline chars in js chunk
+                { loader: 'css-loader', options: { sourceMap: isDevelopment, minimize: !isDevelopment } },
+                { loader: 'postcss-loader', options: { sourceMap: isDevelopment } },
+                { loader: 'less-loader', options: { sourceMap: isDevelopment } }
             ]
         })
     },
@@ -43,7 +40,7 @@ const plugins = [
     }),
     new ExtractTextWebpackPlugin({
         filename: 'style/[contenthash:20].css',
-        disable: isDevelopment
+        disable: false
     }),
     new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/index.html'),
