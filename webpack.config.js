@@ -81,7 +81,7 @@ module.exports = {
         rules: rules
     },
 
-    devtool: isDevelopment ? 'eval' : false,
+    devtool: isDevelopment ? 'source-map' : false,
 
     plugins: isDevelopment ? plugins : [].concat(plugins, buildPlugins),
 
