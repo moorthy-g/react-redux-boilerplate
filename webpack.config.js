@@ -16,6 +16,7 @@ const rules = [
         test: /\.less$/,
         use: ExtractTextWebpackPlugin.extract({
             fallback: 'style-loader',
+            publicPath: '../',
             use: [
                 //minimize css in build to avoid bundling newline chars in js chunk
                 { loader: 'css-loader', options: { sourceMap: isDevelopment, minimize: !isDevelopment } },
@@ -74,7 +75,6 @@ module.exports = {
 
     output: {
         path: buildDirectory,
-        publicPath: '/',
         filename: 'js/[name].[chunkhash].js'
     },
 
