@@ -3,3 +3,6 @@ build/
 *.log
 *.log*
 .env
+
+// webpack bundle analyzer report file
+/report.html

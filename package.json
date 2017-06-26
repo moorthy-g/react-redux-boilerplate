@@ -27,6 +27,7 @@
     "postcss-loader": "^2.0.6",
     "style-loader": "^0.18.1",
     "webpack": "^2.6.0",
+    "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
