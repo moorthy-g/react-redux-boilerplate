@@ -1,5 +1,5 @@
 {
-  "name": "basic-webpack-boilterplate",
+  "name": "static-webpack-boilterplate",
   "version": "1.0.0",
   "description": "A simple webpack boilterplate with webpack-dev-server, babel & less",
   "main": "",
