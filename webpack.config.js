@@ -8,6 +8,9 @@ buildDirectory = path.resolve(__dirname, 'build'),
 isLocalDevelopment = (process.env.NODE_ENV === 'local'),
 port = process.env.PORT || 8000;
 
+var enableHMR = true,
+enableHMR = isLocalDevelopment ? enableHMR : false; //HMR always false for non local env
+
 const rules = [
     {
         test: /\.js$/,
@@ -42,7 +45,7 @@ const plugins = [
     }),
     new ExtractTextWebpackPlugin({
         filename: 'style/[contenthash:20].css',
-        disable: false
+        disable: enableHMR
     }),
     new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/index.html'),
@@ -59,6 +62,12 @@ const plugins = [
         openAnalyzer: false
     })
 ]
+
+const devPlugins = enableHMR ? [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+] : new Array()
 
 const buildPlugins = [
     new CleanWebpackPlugin(
@@ -81,7 +90,8 @@ module.exports = {
 
     output: {
         path: buildDirectory,
-        filename: 'js/[name].[chunkhash].js'
+        //HMR requires [hash]. It doesn't work with chunkhash
+        filename: enableHMR ? 'js/[name].[hash:20].js' : 'js/[name].[chunkhash:20].js'
     },
 
     module: {
@@ -90,7 +100,7 @@ module.exports = {
 
     devtool: isLocalDevelopment ? 'source-map' : false,
 
-    plugins: isLocalDevelopment ? plugins : [].concat(plugins, buildPlugins),
+    plugins: isLocalDevelopment ? [].concat(plugins, devPlugins) : [].concat(plugins, buildPlugins),
 
     resolve: {
         modules: ['node_modules'],
@@ -102,7 +112,9 @@ module.exports = {
         host: '0.0.0.0',
         port: port,
         inline: true,
-        compress: true
+        hot: enableHMR,
+        compress: true,
+        stats: 'errors-only'
     },
 
     stats: 'minimal',
