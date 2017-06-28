@@ -80,12 +80,14 @@ const buildPlugins = [
     })
 ]
 
+let mainEntry = [ path.resolve(__dirname, 'src/js/main') ]
+isLocalDevelopment && mainEntry.push('react-hot-loader/patch')
 
 module.exports = {
 
     entry: {
-        main: path.resolve(__dirname, 'src/js/main'),
-        lib: [ 'es6-promise' ]
+        main: mainEntry,
+        lib: [ 'es6-promise', 'react', 'react-dom' ]
     },
 
     output: {

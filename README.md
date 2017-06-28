@@ -1,6 +1,7 @@
-# Static Webpack Boilerplate
+# Static React Webpack Boilerplate
 An enhanced webpack setup to start with. It has
 - Webpack dev server ( HMR enabled )
+- React
 - Babel transpiler
 - LESS preprocessor
 - Webpack bundle analyzer
