@@ -85,7 +85,7 @@ module.exports = {
 
     entry: {
         main: path.resolve(__dirname, 'src/js/main'),
-        lib: [ 'jquery' ]
+        lib: [ 'es6-promise' ]
     },
 
     output: {
