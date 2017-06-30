@@ -8,8 +8,9 @@ buildDirectory = path.resolve(__dirname, 'build'),
 isLocalDevelopment = (process.env.NODE_ENV === 'local'),
 port = process.env.PORT || 8000;
 
-var enableHMR = true,
-enableHMR = isLocalDevelopment ? enableHMR : false; //HMR always false for non local env
+var enableHMR = true, generateManifest = true, WebpackAssetsManifest
+enableHMR = isLocalDevelopment ? enableHMR : false //HMR always false for non local env
+WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest')
 
 const rules = [
     {
@@ -62,6 +63,13 @@ const plugins = [
         openAnalyzer: false
     })
 ]
+
+generateManifest && plugins.push(
+    new WebpackAssetsManifest({
+        output: path.resolve(buildDirectory, 'webpack-manifest.json'),
+        writeToDisk: true
+    })
+)
 
 const devPlugins = enableHMR ? [
     new webpack.HotModuleReplacementPlugin(),
