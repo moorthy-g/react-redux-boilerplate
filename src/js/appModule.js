@@ -4,9 +4,12 @@ import ReactDOM from 'react-dom'
 class App extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            time: new Date().getSeconds()
+        }
     }
     render() {
-        return <h2>This is a static react webpack boilerplate</h2>
+        return <h2>This is a static react webpack boilerplate at {this.state.time}</h2>
     }
 }
 
