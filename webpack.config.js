@@ -119,6 +119,7 @@ module.exports = {
     devServer: {
         host: '0.0.0.0',
         port: port,
+        disableHostCheck: true,
         inline: true,
         hot: enableHMR,
         compress: true,
