@@ -7,7 +7,7 @@
   "author": "Moorthy <moorthy.g@krds.fr>",
   "license": "WTFPL",
   "scripts": {
-    "start": "cross-env NODE_ENV=local PORT=8000 webpack-dev-server",
+    "start": "cross-env NODE_ENV=development PORT=8000 webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack -p --progress",
     "buildServer": "npm run build && cross-env NODE_ENV=production http-server build -p 8000 -s"
   },

@@ -5,11 +5,11 @@ ExtractTextWebpackPlugin = require('extract-text-webpack-plugin'),
 CleanWebpackPlugin = require('clean-webpack-plugin'),
 BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
 buildDirectory = path.resolve(__dirname, 'build'),
-isLocalDevelopment = (process.env.NODE_ENV === 'local'),
+isDevelopment = (process.env.NODE_ENV !== 'production'),
 port = process.env.PORT || 8000;
 
 var enableHMR = true, generateManifest = true, WebpackAssetsManifest
-enableHMR = isLocalDevelopment ? enableHMR : false //HMR always false for non local env
+enableHMR = isDevelopment ? enableHMR : false //HMR always false for non local env
 WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest')
 
 const rules = [
@@ -24,9 +24,9 @@ const rules = [
             publicPath: '../',
             use: [
                 //minimize css in build to avoid bundling newline chars in js chunk
-                { loader: 'css-loader', options: { sourceMap: isLocalDevelopment, minimize: !isLocalDevelopment } },
-                { loader: 'postcss-loader', options: { sourceMap: isLocalDevelopment } },
-                { loader: 'less-loader', options: { sourceMap: isLocalDevelopment } }
+                { loader: 'css-loader', options: { sourceMap: isDevelopment, minimize: !isDevelopment } },
+                { loader: 'postcss-loader', options: { sourceMap: isDevelopment } },
+                { loader: 'less-loader', options: { sourceMap: isDevelopment } }
             ]
         })
     },
@@ -108,9 +108,9 @@ module.exports = {
         rules: rules
     },
 
-    devtool: isLocalDevelopment ? 'source-map' : false,
+    devtool: isDevelopment ? 'source-map' : false,
 
-    plugins: isLocalDevelopment ? [].concat(plugins, devPlugins) : [].concat(plugins, buildPlugins),
+    plugins: isDevelopment ? [].concat(plugins, devPlugins) : [].concat(plugins, buildPlugins),
 
     resolve: {
         modules: ['node_modules'],
@@ -121,6 +121,7 @@ module.exports = {
     devServer: {
         host: '0.0.0.0',
         port: port,
+        disableHostCheck: true,
         inline: true,
         hot: enableHMR,
         compress: true,
