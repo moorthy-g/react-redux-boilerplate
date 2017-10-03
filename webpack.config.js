@@ -3,14 +3,14 @@ path = require('path'),
 HtmlWebpackPlugin = require('html-webpack-plugin'),
 ExtractTextWebpackPlugin = require('extract-text-webpack-plugin'),
 CleanWebpackPlugin = require('clean-webpack-plugin'),
-BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
 buildDirectory = path.resolve(__dirname, 'build'),
 isDevelopment = (process.env.NODE_ENV !== 'production'),
 port = process.env.PORT || 8000;
 
-var enableHMR = true, generateManifest = true, WebpackAssetsManifest
+var enableHMR = true, generateManifest = true, generateReport = false, WebpackAssetsManifest, BundleAnalyzerPlugin
 enableHMR = isDevelopment ? enableHMR : false //HMR always false for prod build
 WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest')
+BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const rules = [
     {
@@ -56,11 +56,6 @@ const plugins = [
     // extract a 'manifest' chunk, then include it to the app
     new webpack.optimize.CommonsChunkPlugin({
         names: [ 'manifest' ]
-    }),
-    new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: path.resolve(__dirname, 'report.html'),
-        openAnalyzer: false
     })
 ]
 
@@ -68,6 +63,14 @@ generateManifest && plugins.push(
     new WebpackAssetsManifest({
         output: path.resolve(buildDirectory, 'webpack-manifest.json'),
         writeToDisk: true
+    })
+)
+
+generateReport && plugins.push(
+    new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: path.resolve(__dirname, 'report.html'),
+        openAnalyzer: false
     })
 )
 
