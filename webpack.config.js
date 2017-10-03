@@ -9,7 +9,7 @@ isDevelopment = (process.env.NODE_ENV !== 'production'),
 port = process.env.PORT || 8000;
 
 var enableHMR = true, generateManifest = true, WebpackAssetsManifest
-enableHMR = isDevelopment ? enableHMR : false //HMR always false for non local env
+enableHMR = isDevelopment ? enableHMR : false //HMR always false for prod build
 WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest')
 
 const rules = [
@@ -23,7 +23,7 @@ const rules = [
             fallback: 'style-loader',
             publicPath: '../',
             use: [
-                //minimize css in build to avoid bundling newline chars in js chunk
+                //minimize css in prod build to avoid bundling newline chars in js chunk
                 { loader: 'css-loader', options: { sourceMap: isDevelopment, minimize: !isDevelopment } },
                 { loader: 'postcss-loader', options: { sourceMap: isDevelopment } },
                 { loader: 'less-loader', options: { sourceMap: isDevelopment } }
@@ -98,7 +98,7 @@ module.exports = {
 
     output: {
         path: buildDirectory,
-        //HMR requires [hash]. It doesn't work with chunkhash
+        //HMR requires [hash]. It doesn't work with [chunkhash]
         filename: enableHMR ? 'js/[name].[hash:20].js' : 'js/[name].[chunkhash:20].js'
     },
 
