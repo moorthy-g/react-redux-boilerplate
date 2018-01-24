@@ -5,16 +5,16 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const buildDirectory = path.resolve(__dirname, 'build');
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const dotenv = require('dotenv').config();
+
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 8000;
+const generateManifest = process.env.GENERATE_MANIFEST === 'true';
+const generateReport = process.env.GENERATE_REPORT === 'true';
 
-let enableHMR = true;
-let generateManifest = true;
-let generateReport = false;
-let WebpackAssetsManifest, BundleAnalyzerPlugin;
-
-enableHMR = isDevelopment ? enableHMR : false; //HMR always false for prod build
-WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
-BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const enableHMR = isDevelopment;
+const WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
+const BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const rules = [
   {
@@ -158,7 +158,7 @@ module.exports = {
   },
 
   devServer: {
-    host: '0.0.0.0',
+    host: host,
     port: port,
     disableHostCheck: true,
     inline: true,
