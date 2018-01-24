@@ -19,7 +19,11 @@ BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').Bund
 const rules = [
   {
     test: /\.js$/,
-    loader: 'babel-loader'
+    include: path.resolve(__dirname, 'src'),
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true
+    }
   },
   {
     test: /\.less$/,
