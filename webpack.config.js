@@ -115,7 +115,11 @@ const buildPlugins = [
   new CleanWebpackPlugin(buildDirectory),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
+      warnings: false,
       drop_console: true
+    },
+    mangle: {
+      safari10: true,
     }
   })
 ];
