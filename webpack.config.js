@@ -63,7 +63,21 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/index.html'),
-    favicon: path.resolve(__dirname, 'src/img/favicon.png')
+    favicon: path.resolve(__dirname, 'src/img/favicon.png'),
+    minify: isDevelopment
+      ? false
+      : {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true
+        }
   }),
   // To prevent longterm cache of vendor chunks
   // extract a 'manifest' chunk, then include it to the app
