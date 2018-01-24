@@ -83,7 +83,10 @@ const plugins = [
   // extract a 'manifest' chunk, then include it to the app
   new webpack.optimize.CommonsChunkPlugin({
     names: ['manifest']
-  })
+  }),
+  // Prevent importing all moment locales
+  // You can remove this if you don't use Moment.js:
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 ];
 
 generateManifest &&
