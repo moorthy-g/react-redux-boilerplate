@@ -58,7 +58,7 @@ const plugins = [
     )
   }),
   new ExtractTextWebpackPlugin({
-    filename: 'style/[contenthash:20].css',
+    filename: 'style/[name].[contenthash:20].css',
     disable: enableHMR
   }),
   new HtmlWebpackPlugin({
