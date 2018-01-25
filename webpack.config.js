@@ -11,8 +11,10 @@ const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 8000;
 const generateManifest = process.env.GENERATE_MANIFEST === 'true';
 const generateReport = process.env.GENERATE_REPORT === 'true';
+const generateBuildSourceMap = process.env.GENERATE_BUILD_SOURCEMAP === 'true';
 
 const enableHMR = isDevelopment;
+const generateCSSSourceMap = isDevelopment || generateBuildSourceMap;
 const WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
 const BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -42,10 +44,10 @@ const rules = [
         //minimize css in prod build to avoid bundling newline chars in js chunk
         {
           loader: 'css-loader',
-          options: { sourceMap: isDevelopment, minimize: !isDevelopment }
+          options: { sourceMap: generateCSSSourceMap, minimize: !generateCSSSourceMap }
         },
-        { loader: 'postcss-loader', options: { sourceMap: isDevelopment } },
-        { loader: 'less-loader', options: { sourceMap: isDevelopment } }
+        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
+        { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
     })
   },
@@ -127,12 +129,13 @@ const buildPlugins = [
   new CleanWebpackPlugin(buildDirectory),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
-      warnings: false,
-      drop_console: true
+      drop_console: true,
+      warnings: false
     },
     mangle: {
       safari10: true,
-    }
+    },
+    sourceMap: generateBuildSourceMap
   })
 ];
 
@@ -147,14 +150,19 @@ module.exports = {
     //HMR requires [hash]. It doesn't work with [chunkhash]
     filename: enableHMR
       ? 'js/[name].[hash:20].js'
-      : 'js/[name].[chunkhash:20].js'
+      : 'js/[name].[chunkhash:20].js',
+    // Point sourcemap entries to original disk location (format as URL on Windows)
+    devtoolModuleFilenameTemplate: info =>
+    path
+      .relative(path.resolve('src'), info.absoluteResourcePath)
+      .replace(/\\/g, '/')
   },
 
   module: {
     rules: rules
   },
 
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: isDevelopment ? 'cheap-module-source-map' : generateBuildSourceMap ? 'source-map' : false,
 
   plugins: isDevelopment
     ? [].concat(plugins, devPlugins)
