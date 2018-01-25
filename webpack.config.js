@@ -149,7 +149,7 @@ const buildPlugins = [
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, 'src/js/main')
+    main: path.resolve(__dirname, 'src/js')
   },
 
   output: {
