@@ -188,7 +188,8 @@ module.exports = {
     inline: true,
     hot: enableHMR,
     compress: true,
-    stats: 'errors-only'
+    stats: 'errors-only',
+    overlay: true
   },
 
   stats: 'minimal',
