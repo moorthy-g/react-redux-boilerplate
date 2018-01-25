@@ -89,10 +89,18 @@ const plugins = [
           minifyURLs: true
         }
   }),
+  // extract all vendor chunks in node_modules to single file
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: function(module) {
+      return module.context && module.context.includes('node_modules')
+    }
+  }),
   // To prevent longterm cache of vendor chunks
   // extract a 'manifest' chunk, then include it to the app
   new webpack.optimize.CommonsChunkPlugin({
-    names: ['manifest']
+    name: 'manifest',
+    minChunks: Infinity
   }),
   // Prevent importing all moment locales
   // You can remove this if you don't use Moment.js:
@@ -141,8 +149,7 @@ const buildPlugins = [
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, 'src/js/main'),
-    lib: ['es6-promise']
+    main: path.resolve(__dirname, 'src/js/main')
   },
 
   output: {
