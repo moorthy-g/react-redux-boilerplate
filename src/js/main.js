@@ -1,5 +1,5 @@
 import '../style/main.less';
-import './appModule.js';
+import 'js/appModule.js';
 
 if (module.hot) {
   module.hot.accept();

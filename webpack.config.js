@@ -176,9 +176,9 @@ module.exports = {
     : [].concat(plugins, buildPlugins),
 
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js', '.css'],
-    descriptionFiles: ['package.json', 'bower.json', '.bower.json']
+    alias: {
+      js: path.resolve(__dirname, 'src/js')
+    }
   },
 
   devServer: {
