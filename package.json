@@ -9,7 +9,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack -p --progress",
-    "buildServer": "npm run build && cross-env NODE_ENV=production http-server build -p 8000 -s"
+    "build:server": "npm run build && cross-env NODE_ENV=production http-server build -p 8000 -s"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
