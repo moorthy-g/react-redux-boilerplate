@@ -16,6 +16,14 @@ const enableHMR = isDevelopment;
 const WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
 const BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const ClearConsolePlugin = function() {}
+ClearConsolePlugin.prototype.apply = function(compiler) {
+  compiler.plugin('watch-run', function(compilation, callback){
+    process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H');
+    callback();
+  })
+}
+
 const rules = [
   {
     test: /\.js$/,
@@ -110,7 +118,8 @@ const devPlugins = enableHMR
   ? [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new ClearConsolePlugin()
     ]
   : new Array();
 
