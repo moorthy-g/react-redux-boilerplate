@@ -7,9 +7,9 @@
   "author": "Moorthy <moorthy.g@krds.fr>",
   "license": "WTFPL",
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=8000 webpack-dev-server",
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack -p --progress",
-    "buildServer": "npm run build && cross-env NODE_ENV=production http-server build -p 8000 -s"
+    "build:server": "npm run build && cross-env NODE_ENV=production http-server build -p 8000 -s"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
@@ -21,6 +21,7 @@
     "clean-webpack-plugin": "^0.1.17",
     "cross-env": "^5.1.3",
     "css-loader": "^0.28.9",
+    "dotenv": "^4.0.0",
     "es6-promise": "^4.2.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
@@ -28,6 +29,7 @@
     "http-server": "^0.11.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "object-assign": "^4.1.1",
     "postcss-loader": "^2.0.10",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

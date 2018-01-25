@@ -5,21 +5,35 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const buildDirectory = path.resolve(__dirname, 'build');
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const dotenv = require('dotenv').config();
+
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 8000;
+const generateManifest = process.env.GENERATE_MANIFEST === 'true';
+const generateReport = process.env.GENERATE_REPORT === 'true';
+const generateBuildSourceMap = process.env.GENERATE_BUILD_SOURCEMAP === 'true';
 
-let enableHMR = true;
-let generateManifest = true;
-let generateReport = false;
-let WebpackAssetsManifest, BundleAnalyzerPlugin;
+const enableHMR = isDevelopment;
+const generateCSSSourceMap = isDevelopment || generateBuildSourceMap;
+const WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
+const BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-enableHMR = isDevelopment ? enableHMR : false; //HMR always false for prod build
-WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
-BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ClearConsolePlugin = function() {}
+ClearConsolePlugin.prototype.apply = function(compiler) {
+  compiler.plugin('watch-run', function(compilation, callback){
+    process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H');
+    callback();
+  })
+}
 
 const rules = [
   {
     test: /\.js$/,
-    loader: 'babel-loader'
+    include: path.resolve(__dirname, 'src'),
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true
+    }
   },
   {
     test: /\.less$/,
@@ -30,10 +44,10 @@ const rules = [
         //minimize css in prod build to avoid bundling newline chars in js chunk
         {
           loader: 'css-loader',
-          options: { sourceMap: isDevelopment, minimize: !isDevelopment }
+          options: { sourceMap: generateCSSSourceMap, minimize: !generateCSSSourceMap }
         },
-        { loader: 'postcss-loader', options: { sourceMap: isDevelopment } },
-        { loader: 'less-loader', options: { sourceMap: isDevelopment } }
+        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
+        { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
     })
   },
@@ -54,18 +68,43 @@ const plugins = [
     )
   }),
   new ExtractTextWebpackPlugin({
-    filename: 'style/[contenthash:20].css',
+    filename: 'style/[name].[contenthash:20].css',
     disable: enableHMR
   }),
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/index.html'),
-    favicon: path.resolve(__dirname, 'src/img/favicon.png')
+    favicon: path.resolve(__dirname, 'src/img/favicon.png'),
+    minify: isDevelopment
+      ? false
+      : {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true
+        }
+  }),
+  // extract all vendor chunks in node_modules to single file
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: function(module) {
+      return module.context && module.context.includes('node_modules')
+    }
   }),
   // To prevent longterm cache of vendor chunks
   // extract a 'manifest' chunk, then include it to the app
   new webpack.optimize.CommonsChunkPlugin({
-    names: ['manifest']
-  })
+    name: 'manifest',
+    minChunks: Infinity
+  }),
+  // Prevent importing all moment locales
+  // You can remove this if you don't use Moment.js:
+  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 ];
 
 generateManifest &&
@@ -89,7 +128,8 @@ const devPlugins = enableHMR
   ? [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new ClearConsolePlugin()
     ]
   : new Array();
 
@@ -97,8 +137,13 @@ const buildPlugins = [
   new CleanWebpackPlugin(buildDirectory),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
-      drop_console: true
-    }
+      drop_console: true,
+      warnings: false
+    },
+    mangle: {
+      safari10: true,
+    },
+    sourceMap: generateBuildSourceMap
   })
 ];
 
@@ -107,8 +152,7 @@ isDevelopment && mainEntry.push('react-hot-loader/patch');
 
 module.exports = {
   entry: {
-    main: mainEntry,
-    lib: ['es6-promise', 'react', 'react-dom']
+    main: path.resolve(__dirname, 'src/js')
   },
 
   output: {
@@ -116,27 +160,32 @@ module.exports = {
     //HMR requires [hash]. It doesn't work with [chunkhash]
     filename: enableHMR
       ? 'js/[name].[hash:20].js'
-      : 'js/[name].[chunkhash:20].js'
+      : 'js/[name].[chunkhash:20].js',
+    // Point sourcemap entries to original disk location (format as URL on Windows)
+    devtoolModuleFilenameTemplate: info =>
+    path
+      .relative(path.resolve('src'), info.absoluteResourcePath)
+      .replace(/\\/g, '/')
   },
 
   module: {
     rules: rules
   },
 
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: isDevelopment ? 'cheap-module-source-map' : generateBuildSourceMap ? 'source-map' : false,
 
   plugins: isDevelopment
     ? [].concat(plugins, devPlugins)
     : [].concat(plugins, buildPlugins),
 
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js', '.css'],
-    descriptionFiles: ['package.json', 'bower.json', '.bower.json']
+    alias: {
+      js: path.resolve(__dirname, 'src/js')
+    }
   },
 
   devServer: {
-    host: '0.0.0.0',
+    host: host,
     port: port,
     disableHostCheck: true,
     inline: true,
