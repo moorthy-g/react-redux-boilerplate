@@ -1,3 +1,4 @@
+import 'js/polyfills';
 import '../style/main.less';
 import 'js/appModule.js';
 
