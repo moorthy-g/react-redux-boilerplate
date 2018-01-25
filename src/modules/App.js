@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './App.less';
 
 class App extends React.Component {
   constructor(props) {

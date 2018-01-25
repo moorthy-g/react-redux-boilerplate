@@ -73,7 +73,7 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/index.html'),
-    favicon: path.resolve(__dirname, 'src/img/favicon.png'),
+    favicon: path.resolve(__dirname, 'src/favicon.png'),
     minify: isDevelopment
       ? false
       : {
@@ -152,7 +152,7 @@ isDevelopment && mainEntry.push('react-hot-loader/patch');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, 'src/js')
+    main: path.resolve(__dirname, 'src/index')
   },
 
   output: {
@@ -180,7 +180,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      js: path.resolve(__dirname, 'src/js')
+      components: path.resolve(__dirname, 'src/components'),
+      modules: path.resolve(__dirname, 'src/modules')
     }
   },
 

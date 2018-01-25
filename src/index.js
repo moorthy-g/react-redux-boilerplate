@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from 'js/app-module.js';
-import 'js/polyfills';
-import '../style/main.less';
+import App from 'modules/App';
+import './polyfills';
 
 if (module.hot) {
   module.hot.accept();
