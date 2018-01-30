@@ -44,7 +44,12 @@ const rules = [
         //minimize css in prod build to avoid bundling newline chars in js chunk
         {
           loader: 'css-loader',
-          options: { sourceMap: generateCSSSourceMap, minimize: !generateCSSSourceMap }
+          options: {
+            modules: true,
+            localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:10]',
+            sourceMap: generateCSSSourceMap,
+            minimize: !generateCSSSourceMap
+          }
         },
         { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
