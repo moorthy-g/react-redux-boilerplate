@@ -1,5 +1,4 @@
 body {
-  @color: #fafafa;
-  background: @color;
+  background: #fafafa;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

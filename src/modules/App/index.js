@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Seconds from 'components/seconds';
-import './styles.less';
+import './styles.css';
 
 class App extends React.Component {
     render() {

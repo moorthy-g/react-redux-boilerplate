@@ -36,7 +36,7 @@ const rules = [
     }
   },
   {
-    test: /\.less$/,
+    test: /\.css$/,
     use: ExtractTextWebpackPlugin.extract({
       fallback: 'style-loader',
       publicPath: '../',
@@ -46,8 +46,7 @@ const rules = [
           loader: 'css-loader',
           options: { sourceMap: generateCSSSourceMap, minimize: !generateCSSSourceMap }
         },
-        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
-        { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
+        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
     })
   },
