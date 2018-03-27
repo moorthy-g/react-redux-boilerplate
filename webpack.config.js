@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const buildDirectory = path.resolve(__dirname, 'build');
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -37,11 +37,9 @@ const rules = [
   },
   {
     test: /\.less$/,
-    use: ExtractTextWebpackPlugin.extract({
-      fallback: 'style-loader',
-      publicPath: '../',
-      use: [
+    use: [
         //minimize css in prod build to avoid bundling newline chars in js chunk
+        { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
         {
           loader: 'css-loader',
           options: { sourceMap: generateCSSSourceMap, minimize: !generateCSSSourceMap }
@@ -49,7 +47,6 @@ const rules = [
         { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
         { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
-    })
   },
   {
     test: /\.(jpe?g|png|gif|webp|svg)$/,
@@ -66,10 +63,6 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify(
       process.env.NODE_ENV || 'development'
     )
-  }),
-  new ExtractTextWebpackPlugin({
-    filename: 'style/[name].[contenthash:20].css',
-    disable: enableHMR
   }),
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/index.html'),
@@ -121,7 +114,10 @@ const devPlugins = enableHMR
   : new Array();
 
 const buildPlugins = [
-  new CleanWebpackPlugin(buildDirectory)
+  new CleanWebpackPlugin(buildDirectory),
+  new MiniCssExtractPlugin({
+    filename: 'style/[name].[contenthash:20].css'
+  })
 ];
 
 module.exports = {
@@ -156,6 +152,12 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           name: 'vendor'
+        },
+        styles: {
+          name: 'main',
+          test: /\.less$/,
+          chunks: 'all',
+          enforce: true
         }
       }
     },
