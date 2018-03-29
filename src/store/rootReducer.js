@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import secondsReducer from 'components/seconds/ducks';
+import { STATE_KEY as secondsState, reducer as secondsReducer } from 'components/seconds';
 
 export default combineReducers({
-  seconds: secondsReducer
+  [secondsState]: secondsReducer
 })

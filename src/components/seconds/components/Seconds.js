@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from './ducks';
+import { actions } from '../state';
 
 class Seconds extends Component {
   componentDidMount() {

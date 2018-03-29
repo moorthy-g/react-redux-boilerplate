@@ -1,7 +1,10 @@
-//action types
+// State key
+export const STATE_KEY = 'seconds';
+
+// Action types
 const UPDATE = 'SECONDS/UPDATE';
 
-//reducer
+// Reducer
 export default function (state = 0, action) {
   switch(action.type) {
     case UPDATE:
@@ -11,11 +14,14 @@ export default function (state = 0, action) {
   }
 }
 
-//action creators
-export function updateSeconds() {
+// Action creators
+function updateSeconds() {
   return {
     type: UPDATE,
     payload: new Date().getSeconds()
   }
 }
 
+export const actions = {
+  updateSeconds
+}

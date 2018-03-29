@@ -1,5 +1,5 @@
-import Seconds from './components/Seconds';
+import App from './components/App';
 import reducer, { actions, STATE_KEY } from './state';
 
-export default Seconds;
+export default App;
 export { reducer, actions, STATE_KEY };
