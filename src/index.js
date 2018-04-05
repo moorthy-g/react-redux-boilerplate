@@ -1,9 +1,9 @@
+import './polyfills';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from './store';
 import App from 'screens/app';
-import './polyfills';
 
 if (module.hot) {
   module.hot.accept();
