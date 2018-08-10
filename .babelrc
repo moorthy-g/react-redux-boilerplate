@@ -13,14 +13,23 @@
       "plugins": [
         ["react-css-modules",{
           "generateScopedName": "[local]_[hash:base64:5]",
-          "webpackHotModuleReloading": true
+          "filetypes": {
+            ".less": {
+              "syntax": "postcss-less"
+             }
+          }
         }]
       ]
     },
     "production": {
       "plugins": [
         ["react-css-modules",{
-          "generateScopedName": "[hash:base64:5]"
+          "generateScopedName": "[hash:base64:5]",
+          "filetypes": {
+            ".less": {
+              "syntax": "postcss-less"
+             }
+          }
         }]
       ]
     }

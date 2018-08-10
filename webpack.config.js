@@ -36,7 +36,7 @@ const rules = [
     }
   },
   {
-    test: /\.css$/,
+    test: /\.(less|css)$/,
     use: [
         //minimize css in prod build to avoid bundling newline chars in js chunk
         { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
@@ -44,12 +44,13 @@ const rules = [
           loader: 'css-loader',
           options: {
             modules: true,
-            importLoaders: 1,
+            importLoaders: 2,
             localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
             sourceMap: generateCSSSourceMap
           }
         },
-        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } }
+        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
+        { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
       ]
   },
   {
