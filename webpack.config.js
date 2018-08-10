@@ -157,13 +157,13 @@ module.exports = {
       chunks: 'all',
       cacheGroups: {
         vendors: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/].+\.js$/,
           priority: -10,
           name: 'vendor'
         },
         styles: {
           name: 'main',
-          test: /\.less$/,
+          test: /\.(less|css)$/,
           chunks: 'all',
           enforce: true
         }
