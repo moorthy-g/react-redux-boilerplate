@@ -181,10 +181,7 @@ module.exports = {
     : [].concat(plugins, buildPlugins),
 
   resolve: {
-    alias: {
-      components: path.resolve(__dirname, 'src/components'),
-      screens: path.resolve(__dirname, 'src/screens')
-    }
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
 
   devServer: {
