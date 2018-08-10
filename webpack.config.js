@@ -44,9 +44,9 @@ const rules = [
           loader: 'css-loader',
           options: {
             modules: true,
+            importLoaders: 1,
             localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:10]',
-            sourceMap: generateCSSSourceMap,
-            minimize: !generateCSSSourceMap
+            sourceMap: generateCSSSourceMap
           }
         },
         { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } }
