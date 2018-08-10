@@ -20,7 +20,7 @@
     "production": {
       "plugins": [
         ["react-css-modules",{
-          "generateScopedName": "[hash:base64:10]"
+          "generateScopedName": "[hash:base64:5]"
         }]
       ]
     }

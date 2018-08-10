@@ -45,7 +45,7 @@ const rules = [
           options: {
             modules: true,
             importLoaders: 1,
-            localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:10]',
+            localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
             sourceMap: generateCSSSourceMap
           }
         },
