@@ -1,4 +1,4 @@
-import App from './components/App';
+import App from './components/app';
 import reducer, { actions, STATE_KEY } from './state';
 
 export default App;
