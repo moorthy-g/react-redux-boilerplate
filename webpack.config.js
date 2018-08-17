@@ -31,6 +31,7 @@ const rules = [
     test: /\.js$/,
     include: path.resolve(__dirname, 'src'),
     loader: 'babel-loader',
+    sideEffects: false, //Helps tree shaking
     options: {
       cacheDirectory: true
     }
