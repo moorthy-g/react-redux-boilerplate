@@ -1,6 +1,7 @@
-// Action types
-// Declare action type constants here
+// State key
+export const STATE_KEY = 'app';
 
+// Action types
 
 // Rducer
 export default function (state = 0, action) {
