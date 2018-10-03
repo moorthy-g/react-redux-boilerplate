@@ -2,7 +2,7 @@ import './polyfills';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { configureStore } from './store';
+import store from './store';
 import App from 'screens/app';
 
 if (module.hot) {
@@ -12,7 +12,7 @@ if (module.hot) {
 }
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={store.get()}>
     <App />
   </Provider>,
   document.querySelector('.container')

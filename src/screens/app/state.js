@@ -4,7 +4,7 @@ export const STATE_KEY = 'app';
 // Action types
 
 // Rducer
-export default function (state = 0, action) {
+export function reducer (state = 0, action) {
   switch(action.type) {
     default:
       return state;

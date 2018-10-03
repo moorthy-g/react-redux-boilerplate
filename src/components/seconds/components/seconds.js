@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actions } from '../state';
+import { actions, STATE_KEY } from '../state';
 
 class Seconds extends Component {
   componentDidMount() {
@@ -15,7 +15,7 @@ class Seconds extends Component {
 
 function mapStateToProps(state) {
   return {
-    seconds: state.seconds
+    seconds: state[STATE_KEY]
   }
 }
 

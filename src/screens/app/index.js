@@ -1,5 +1,8 @@
+import store from 'store';
 import App from './components/app';
-import reducer, { actions, STATE_KEY } from './state';
+import { reducer, actions, STATE_KEY } from './state';
+
+store.addReducer(STATE_KEY, reducer);
 
 export default App;
-export { reducer, actions, STATE_KEY };
+export { actions, STATE_KEY };

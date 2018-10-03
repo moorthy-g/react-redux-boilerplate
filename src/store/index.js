@@ -1,31 +1,57 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from './rootReducer';
+import { combineReducers } from 'redux';
 
-export function configureStore() {
-  let enhancers;
+const store = {
+  _store: null,
+  _reducers: {},
+  _updateQueued: false,
+  _updateReducers() {
+    if(this._updateQueued) {
+      return false;
+    }
+    this._updateQueued = true;
+    setTimeout(() => {
+      if(this._store !== null) {
+        const rootReducer = combineReducers(this._reducers);
+        this._store.replaceReducer(rootReducer);
+        this._updateQueued = false;
+      }
+    })
+  },
+  get() {
+    if(this._store === null) {
+      this.configure();
+    }
+    return this._store;
+  },
+  configure() {
+    const rootReducer = combineReducers(this._reducers);
+    let enhancers;
+    if (process.env.NODE_ENV !== 'production') {
+      const logger = require('redux-logger').default;
+      const composeEnhancers =
+        typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+          ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+          : compose;
+      enhancers = composeEnhancers(applyMiddleware(thunk, logger));
+    } else {
+      //prod only middlewares
+      enhancers = compose(applyMiddleware(thunk));
+    }
 
-  if (process.env.NODE_ENV !== 'production') {
-    const logger = require('redux-logger').default;
-    const composeEnhancers =
-      typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-        : compose;
-    enhancers = composeEnhancers(applyMiddleware(thunk, logger));
-  } else {
-    //prod only middlewares
-    enhancers = compose(applyMiddleware(thunk));
+    this._store = createStore(rootReducer, enhancers);
+  },
+  addReducer(key, reducer) {
+    this._reducers[key] = reducer;
+    this._updateReducers();
+  },
+  removeReducer(key) {
+    if(this._reducers[key]) {
+      this._reducers[key] = null;
+    };
+    this._updateReducers();
   }
-
-  const store = createStore(rootReducer, enhancers);
-
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./rootReducer', () => {
-      const nextRootReducer = require('./rootReducer').default;
-      store.replaceReducer(nextRootReducer);
-    });
-  }
-
-  return store;
 }
+
+export default store;

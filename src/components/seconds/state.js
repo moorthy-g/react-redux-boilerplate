@@ -5,7 +5,7 @@ export const STATE_KEY = 'seconds';
 const UPDATE = 'SECONDS/UPDATE';
 
 // Reducer
-export default function (state = 0, action) {
+export function reducer (state = 0, action) {
   switch(action.type) {
     case UPDATE:
       return action.payload;
