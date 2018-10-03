@@ -1,4 +1,4 @@
-import Seconds from './components/Seconds';
+import Seconds from './components/seconds';
 import reducer, { actions, STATE_KEY } from './state';
 
 export default Seconds;
