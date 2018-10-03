@@ -29,7 +29,9 @@ const store = {
     const rootReducer = combineReducers(this._reducers);
     let enhancers;
     if (process.env.NODE_ENV !== 'production') {
-      const logger = require('redux-logger').default;
+      const logger = require('redux-logger').createLogger({
+        collapsed: true
+      });
       const composeEnhancers =
         typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
           ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
