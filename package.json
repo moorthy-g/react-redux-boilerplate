@@ -1,7 +1,7 @@
 {
-  "name": "static-webpack-boilterplate",
+  "name": "react-redux-boilterplate",
   "version": "1.0.0",
-  "description": "A simple webpack boilterplate with webpack-dev-server, babel & less",
+  "description": "A react redux boilterplate with opinions",
   "main": "",
   "repository": "git@github.com:moorthy-g/static-webpack-boilterplate.git",
   "author": "Moorthy <moorthy.g@krds.fr>",
