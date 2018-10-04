@@ -133,7 +133,10 @@ module.exports = {
   mode: isDevelopment ? 'development' : 'production',
 
   entry: {
-    main: path.resolve(__dirname, 'src/index')
+    main: [
+      path.resolve(__dirname, 'src/polyfills'),
+      path.resolve(__dirname, 'src/index')
+    ]
   },
 
   output: {
