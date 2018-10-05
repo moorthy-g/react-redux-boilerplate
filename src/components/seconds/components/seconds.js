@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions, STATE_KEY } from '../state';
 
-class Seconds extends Component {
+export class Seconds extends Component {
   componentDidMount() {
     this.props.updateSeconds();
     setInterval(this.props.updateSeconds, 5000);

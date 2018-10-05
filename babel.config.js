@@ -1,9 +1,10 @@
 module.exports = function (api) {
   api.cache(true);
   const isDevelopment = process.env.NODE_ENV !== 'production';
+  const isTesting = process.env.NODE_ENV === 'testing'
   const presets = [
     ['@babel/env', {
-      'modules': false
+      'modules': isTesting ? 'commonjs' : false
     }],
     '@babel/react'
   ];
