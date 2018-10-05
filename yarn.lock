@@ -6179,7 +6179,7 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^16.4.2:
+react-dom@^16.5.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.5.2.tgz#b69ee47aa20bab5327b2b9d7c1fe2a30f2cfa9d7"
   dependencies:
@@ -6213,7 +6213,7 @@ react-loadable@^5.5.0:
   dependencies:
     prop-types "^15.5.0"
 
-react-redux@^5.0.6:
+react-redux@^5.0.7:
   version "5.0.7"
   resolved "http://registry.npmjs.org/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
   dependencies:
@@ -6256,7 +6256,7 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.5.2:
     react-is "^16.5.2"
     schedule "^0.5.0"
 
-react@^16.4.2:
+react@^16.5.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.5.2.tgz#19f6b444ed139baa45609eee6dc3d318b3895d42"
   dependencies:
