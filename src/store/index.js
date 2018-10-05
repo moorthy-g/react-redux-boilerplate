@@ -17,7 +17,7 @@ const store = {
         this._store.replaceReducer(rootReducer);
         this._updateQueued = false;
       }
-    })
+    });
   },
   get() {
     if(this._store === null) {
@@ -28,6 +28,7 @@ const store = {
   configure() {
     const rootReducer = combineReducers(this._reducers);
     let enhancers;
+    /*eslint-env node*/
     if (process.env.NODE_ENV !== 'production') {
       const logger = require('redux-logger').createLogger({
         collapsed: true
@@ -51,9 +52,9 @@ const store = {
   removeReducer(key) {
     if(this._reducers[key]) {
       this._reducers[key] = null;
-    };
+    }
     this._updateReducers();
   }
-}
+};
 
 export default store;
