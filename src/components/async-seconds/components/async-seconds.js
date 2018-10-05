@@ -9,14 +9,14 @@ class AsyncSeconds extends Component {
     setInterval(this.props.updateSeconds, 2000);
   }
   render() {
-    return ( <span>{this.props.seconds}</span> )
+    return ( <span>{this.props.seconds}</span> );
   }
 }
 
 function mapStateToProps(state) {
   return {
     seconds: state[STATE_KEY]
-  }
+  };
 }
 
 function mapStateToDispatch(dispatch) {

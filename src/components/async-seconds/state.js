@@ -8,10 +8,10 @@ const UPDATE = 'ASYNC_SECONDS/UPDATE';
 const initialState = new Date().getSeconds();
 export function reducer (state = initialState, action) {
   switch(action.type) {
-    case UPDATE:
-      return action.payload;
-    default:
-      return state;
+  case UPDATE:
+    return action.payload;
+  default:
+    return state;
   }
 }
 
@@ -20,9 +20,9 @@ function updateSeconds() {
   return {
     type: UPDATE,
     payload: new Date().getSeconds()
-  }
+  };
 }
 
 export const actions = {
   updateSeconds
-}
+};

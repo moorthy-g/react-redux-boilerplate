@@ -2,18 +2,18 @@
 export const STATE_KEY = 'app';
 
 // Action types
-const SHOW_ASYNC = 'APP/SHOW_ASYNC'
+const SHOW_ASYNC = 'APP/SHOW_ASYNC';
 
 // Rducer
 const initialState = {
   asyncComponent: false
-}
+};
 export function reducer (state = initialState, action) {
   switch(action.type) {
-    case SHOW_ASYNC:
-      return { ...state, asyncComponent: true };
-    default:
-      return state;
+  case SHOW_ASYNC:
+    return { ...state, asyncComponent: true };
+  default:
+    return state;
   }
 }
 
@@ -26,4 +26,4 @@ function showAsyncComponent() {
 // Export required action creators
 export const actions = {
   showAsyncComponent
-}
+};

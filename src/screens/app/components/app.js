@@ -7,13 +7,13 @@ import '../style.less';
 
 const AsyncSeconds = Loadable({
   loader: () => import('components/async-seconds'),
-  loading: () => 'Loading...',
-})
+  loading: () => 'Loading...'
+});
 
 class App extends React.Component {
-    render() {
+  render() {
     return (
-     <div>
+      <div>
         <h2 styleName='title'>
           This is a react/redux webpack boilerplate <br />
           Seconds component <Seconds />
@@ -22,9 +22,9 @@ class App extends React.Component {
         { this.props.asyncComponent &&
           <h2 styleName='title'>
             Async seconds component <AsyncSeconds />
-        </h2>
+          </h2>
         }
-     </div>
+      </div>
     );
   }
 }
