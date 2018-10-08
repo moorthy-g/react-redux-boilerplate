@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
   const isDevelopment = process.env.NODE_ENV !== 'production';
-  const isTesting = process.env.NODE_ENV === 'testing'
+  const isTesting = process.env.NODE_ENV === 'testing';
   const presets = [
     ['@babel/env', {
       'modules': isTesting ? 'commonjs' : false
@@ -15,7 +15,7 @@ module.exports = function (api) {
       'filetypes': {
         '.less': {
           'syntax': 'postcss-less'
-         }
+        }
       }
     }],
     '@babel/syntax-dynamic-import',
@@ -26,4 +26,4 @@ module.exports = function (api) {
     presets,
     plugins
   };
-}
+};

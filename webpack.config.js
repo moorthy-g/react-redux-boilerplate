@@ -1,3 +1,4 @@
+require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -5,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const buildDirectory = path.resolve(__dirname, 'build');
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const dotenv = require('dotenv').config();
 
 const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 8000;
@@ -18,13 +18,13 @@ const generateCSSSourceMap = isDevelopment || generateBuildSourceMap;
 const WebpackAssetsManifest = generateManifest && require('webpack-assets-manifest');
 const BundleAnalyzerPlugin = generateReport && require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const ClearConsolePlugin = function() {}
+const ClearConsolePlugin = function() {};
 ClearConsolePlugin.prototype.apply = function(compiler) {
   compiler.plugin('watch-run', function(compilation, callback){
     process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H');
     callback();
-  })
-}
+  });
+};
 
 const rules = [
   {
@@ -39,20 +39,20 @@ const rules = [
   {
     test: /\.(less|css)$/,
     use: [
-        //minimize css in prod build to avoid bundling newline chars in js chunk
-        { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
-        {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            importLoaders: 2,
-            localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
-            sourceMap: generateCSSSourceMap
-          }
-        },
-        { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
-        { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
-      ]
+      //minimize css in prod build to avoid bundling newline chars in js chunk
+      { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          importLoaders: 2,
+          localIdentName: isDevelopment ? '[local]_[hash:base64:5]' : '[hash:base64:5]',
+          sourceMap: generateCSSSourceMap
+        }
+      },
+      { loader: 'postcss-loader', options: { sourceMap: generateCSSSourceMap } },
+      { loader: 'less-loader', options: { sourceMap: generateCSSSourceMap } }
+    ]
   },
   {
     test: /\.(jpe?g|png|gif|webp|svg)$/,
@@ -76,17 +76,17 @@ const plugins = [
     minify: isDevelopment
       ? false
       : {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true
-        }
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
   }),
   // Prevent importing all moment locales
   // You can remove this if you don't use Moment.js:
@@ -112,11 +112,11 @@ generateReport &&
 
 const devPlugins = enableHMR
   ? [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new ClearConsolePlugin()
-    ]
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new ClearConsolePlugin()
+  ]
   : new Array();
 
 const buildPlugins = [
@@ -148,9 +148,9 @@ module.exports = {
       : 'js/[name].[chunkhash:20].js',
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
-    path
-      .relative(path.resolve('src'), info.absoluteResourcePath)
-      .replace(/\\/g, '/')
+      path
+        .relative(path.resolve('src'), info.absoluteResourcePath)
+        .replace(/\\/g, '/')
   },
 
   module: {

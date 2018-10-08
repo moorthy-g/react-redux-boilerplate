@@ -11,7 +11,7 @@
     "build": "cross-env NODE_ENV=production webpack -p --progress",
     "build:server": "npm run build && cross-env NODE_ENV=production http-server build --push-state -p 8000 -s",
     "test": "cross-env NODE_ENV=testing jest",
-    "lint": "eslint ./src/**/*.js"
+    "lint": "eslint **/*.js --ignore-pattern=build"
   },
   "dependencies": {
     "core-js": "^2.5.7",
