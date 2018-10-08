@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from 'screens/app';
+import './styles/common.less';
 
 if (module.hot) {
   module.hot.accept();
