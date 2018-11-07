@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import Seconds from 'components/seconds';
 import { actions, STATE_KEY } from '../state';
 import '../style.less';
 
-const AsyncSeconds = Loadable({
-  loader: () => import('components/async-seconds'),
-  loading: () => 'Loading...'
-});
+const AsyncSeconds = lazy(() => import('components/async-seconds'));
+const Loading = <div>Loading...</div>;
 
 class App extends React.Component {
   render() {
@@ -21,7 +18,9 @@ class App extends React.Component {
         <button onClick={this.props.showAsyncComponent}>Show Async Component</button>
         { this.props.asyncComponent &&
           <h2 styleName='title'>
-            Async seconds component <AsyncSeconds />
+            <Suspense fallback={Loading}>
+              Async seconds component <AsyncSeconds />
+            </Suspense>
           </h2>
         }
       </div>
